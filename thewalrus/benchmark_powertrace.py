@@ -81,7 +81,7 @@ for i in range(6,max_size):
     A = np.random.rand(i,i)
     A += A.T
     time_eigs = %timeit -o  powertrace_eigs(A,5)
-    time_powertrace = %timeit -o charpoly.powertrace(A, 5)
+    time_powertrace = %timeit -o powertrace(A, 5)
     eig_powertrace.append(time_eigs.average)
     charpoly_powertrace.append(time_powertrace.average)
 temps = np.linspace(6,16,10, dtype = int)
