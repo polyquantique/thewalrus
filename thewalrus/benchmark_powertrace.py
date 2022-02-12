@@ -3,7 +3,7 @@ import numba
 import matplotlib.pyplot as plt
 from thewalrus import charpoly
 from thewalrus.charpoly import powertrace
-
+"""
 def powertrace_eigs(A,n):
     A += A.T
     powertrace = []  
@@ -42,3 +42,34 @@ plt.semilogy(nmax,eigs,nmax,powertrace)
 plt.legend(['Powertrace with eigenvalues ','Powertrace from thewalrus'])
 plt.xlabel('Matrix size')
 plt.ylabel('Time of computation')
+"""
+
+# Varying the power
+A = np.random.rand(6,6)
+A += A.T
+def powertrace_eigs(A,n):
+    """
+        Get the power trace up to n-1 power of A
+    """
+    powertrace = []  
+    for i in range(n):
+        powered_matrix = np.linalg.matrix_power(A,i)
+        eigs = np.linalg.eigvals(powered_matrix)
+        powertrace.append(np.sum(eigs))        
+    return powertrace
+
+n = 20
+eig_powertrace = []
+charpoly_powertrace = []
+for i in range(n):
+    time_eigs = %timeit -o  powertrace_eigs(A,i)
+    time_powertrace = %timeit -o charpoly.powertrace(A, i)
+    eig_powertrace.append(time_eigs.average)
+    charpoly_powertrace.append(time_powertrace.average)
+temps = np.linspace(1,20,20, dtype = int)
+plt.xlabel('number of powers')
+plt.ylabel('time taken on average (t)')
+plt.title("Time to find powertrace of matrix 6 by 6 for charpoly and eigenvalue algorithms")
+plt.plot(temps, eig_powertrace, label = 'eigenvalues')
+plt.plot(temps, charpoly_powertrace, label = 'charpoly')
+plt.legend(loc = 'upper right')
