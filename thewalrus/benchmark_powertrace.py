@@ -51,19 +51,19 @@ def powertrace_eigs(A,n):
     """
         Get the power trace up to n-1 power of A
     """
-    powertrace = []  
+    powertrace_list = []  
     for i in range(n):
         powered_matrix = np.linalg.matrix_power(A,i)
         eigs = np.linalg.eigvals(powered_matrix)
-        powertrace.append(np.sum(eigs))        
-    return powertrace
+        powertrace_list.append(np.sum(eigs))        
+    return powertrace_list
 
 n = 20
 eig_powertrace = []
 charpoly_powertrace = []
 for i in range(n):
     time_eigs = %timeit -o  powertrace_eigs(A,i)
-    time_powertrace = %timeit -o charpoly.powertrace(A, i)
+    time_powertrace = %timeit -o powertrace(A, i)
     eig_powertrace.append(time_eigs.average)
     charpoly_powertrace.append(time_powertrace.average)
 temps = np.linspace(1,20,20, dtype = int)
