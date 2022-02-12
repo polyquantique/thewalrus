@@ -68,8 +68,26 @@ for i in range(n):
     charpoly_powertrace.append(time_powertrace.average)
 temps = np.linspace(1,20,20, dtype = int)
 plt.xlabel('number of powers')
-plt.ylabel('time taken on average (t)')
+plt.ylabel('time taken on average (s)')
 plt.title("Time to find powertrace of matrix 6 by 6 for charpoly and eigenvalue algorithms")
+plt.plot(temps, eig_powertrace, label = 'eigenvalues')
+plt.plot(temps, charpoly_powertrace, label = 'charpoly')
+plt.legend(loc = 'upper right')
+# Varying the matrix size
+max_size = 16
+eig_powertrace = []
+charpoly_powertrace = []
+for i in range(6,max_size):
+    A = np.random.rand(i,i)
+    A += A.T
+    time_eigs = %timeit -o  powertrace_eigs(A,5)
+    time_powertrace = %timeit -o charpoly.powertrace(A, 5)
+    eig_powertrace.append(time_eigs.average)
+    charpoly_powertrace.append(time_powertrace.average)
+temps = np.linspace(6,16,10, dtype = int)
+plt.xlabel('size of matrix')
+plt.ylabel('time taken on average (s)')
+plt.title("Time to find powertrace for charpoly and eigenvalue algorithms for power to the 6")
 plt.plot(temps, eig_powertrace, label = 'eigenvalues')
 plt.plot(temps, charpoly_powertrace, label = 'charpoly')
 plt.legend(loc = 'upper right')
