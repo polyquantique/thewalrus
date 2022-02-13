@@ -40,7 +40,7 @@ def get_varying_size_time(max_dim, power):
     eig_powertrace = []
     charpoly_powertrace = []
     for i in range(6,max_dim):
-        A = np.random.rand(i,i)
+        A = np.random.rand(i,i).astype(complex)
         time_eigs = %timeit -o powertrace_eigs_list(A, power)
         time_powertrace = %timeit -o charpoly.powertrace(A, power)
         eig_powertrace.append(time_eigs.average)
