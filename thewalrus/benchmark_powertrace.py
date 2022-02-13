@@ -8,8 +8,8 @@ def powertrace_eigs(A,n):
     """
         Get the power trace of n-1 power of A
     """
-    powered_matrix = np.linalg.matrix_power(A,n)
-    eigs = np.linalg.eigvals(powered_matrix)
+    eigs = np.linalg.eigvals(A)
+    eigs = eigs ** n
     powertrace = np.sum(eigs)
     return powertrace
 def powertrace_eigs_list(A, n):
