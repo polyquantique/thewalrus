@@ -6,20 +6,12 @@ from thewalrus import charpoly
 @jit(nopython = True)
 def powertrace_eigs(A,n):
     """
-        Get the power trace of n-1 power of A
-    """
-    eigs = np.linalg.eigvals(A)
-    eigs = eigs ** n
-    powertrace = np.sum(eigs)
-    return powertrace
-def powertrace_eigs_list(A, n):
-    """
         Get the power trace up to n-1 power of A
     """
-    powertrace = []
+    eigs = np.linalg.eigvals(A)
+    powertrace = np.zeros(n).astype(complex)
     for i in range(n):
-        power = powertrace_eigs(A, i)
-        powertrace.append(power)
+        powertrace[i] = np.sum(eigs ** i)
     return powertrace
 def get_varying_power_time(A, max_power):
     """
