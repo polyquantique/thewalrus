@@ -48,7 +48,9 @@ class TestWilliamsonDecomposition:
 
             # interferometer 1
             U1 = haar_measure(n)
-            S1 = np.vstack([np.hstack([U1.real, -U1.imag]), np.hstack([U1.imag, U1.real])])
+            S1 = np.vstack(
+                [np.hstack([U1.real, -U1.imag]), np.hstack([U1.imag, U1.real])]
+            )
 
             # squeezing
             r = np.log(0.2 * np.arange(n) + 2)
@@ -56,7 +58,9 @@ class TestWilliamsonDecomposition:
 
             # interferometer 2
             U2 = haar_measure(n)
-            S2 = np.vstack([np.hstack([U2.real, -U2.imag]), np.hstack([U2.imag, U2.real])])
+            S2 = np.vstack(
+                [np.hstack([U2.real, -U2.imag]), np.hstack([U2.imag, U2.real])]
+            )
 
             # final symplectic
             S_final = S2 @ Sq @ S1
@@ -99,7 +103,9 @@ class TestWilliamsonDecomposition:
         """Test that the graph_embed decomposition raises exception if not even number of rows"""
         A = np.random.rand(5, 5) + 1j * np.random.rand(5, 5)
         A += A.T
-        with pytest.raises(ValueError, match="must have an even number of rows/columns"):
+        with pytest.raises(
+            ValueError, match="must have an even number of rows/columns"
+        ):
             williamson(A)
 
     def test_positive_definite_validation(self):
@@ -164,7 +170,7 @@ class TestBlochMessiahDecomposition:
         assert np.allclose(v.T @ v, np.eye(len(v)))
         assert is_symplectic(u)
         assert is_symplectic(v)
-        assert np.allclose(d,np.diag(np.diag(d)))
+        assert np.allclose(d, np.diag(np.diag(d)))
 
     def test_blochmessiah_odd(self):
         """Tests that odd matrices return False in blochmessiah."""
