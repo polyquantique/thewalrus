@@ -132,12 +132,8 @@ def blochmessiah(S):
 
     N, m = S.shape
 
-    if N != m:
-        return False
-    if N % 2 != 0:
-        return False
     if not is_symplectic(S):
-        return False
+        raise ValueError("The input matrix is not Symplectic")
     # Changing Basis
     R = (1 / np.sqrt(2)) * np.block(
         [[np.eye(N // 2), 1j * np.eye(N // 2)], [np.eye(N // 2), -1j * np.eye(N // 2)]]

@@ -152,7 +152,7 @@ class TestWilliamsonDecomposition:
 
 
 class TestBlochMessiahDecomposition:
-    """Tests for the Williamson decomposition"""
+    """Tests for the Bloch Messiah decomposition"""
 
     @pytest.mark.parametrize("N", range(50, 500, 50))
     def test_blochmessiah_rand(self, N):
@@ -160,22 +160,26 @@ class TestBlochMessiahDecomposition:
         S = random_symplectic(N)
         u, d, v = blochmessiah(S)
         assert np.allclose(u @ d @ v, S)
-        np.allclose(u.T @ u, np.eye(len(u)))
-        np.allclose(v.T @ v, np.eye(len(v)))
-        is_symplectic(u)
-        is_symplectic(v)
+        assert np.allclose(u.T @ u, np.eye(len(u)))
+        assert np.allclose(v.T @ v, np.eye(len(v)))
+        assert is_symplectic(u)
+        assert is_symplectic(v)
+        assert np.allclose(d,np.diag(np.diag(d)))
 
     def test_blochmessiah_odd(self):
         """Tests that odd matrices return False in blochmessiah."""
         S = np.random.rand(5, 5)
-        assert not blochmessiah(S)
+        with pytest.raises(ValueError, match="The input matrix is not Symplectic"):
+            blochmessiah(S)
 
     def test_blochmessiah_rect(self):
         """Tests that rectangular matrices return False in blochmessiah"""
         S = np.random.rand(4, 5)
-        assert not blochmessiah(S)
+        with pytest.raises(ValueError, match="The input matrix is not Symplectic"):
+            blochmessiah(S)
 
     def test_blochmessiah_false(self):
         """Tests that non-symplectic mattrices return False in blochmessiah"""
         S = np.random.rand(4, 4)
-        assert not blochmessiah(S)
+        with pytest.raises(ValueError, match="The input matrix is not Symplectic"):
+            blochmessiah(S)
